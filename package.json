@@ -9,6 +9,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^1.0.0-beta.6",
+    "@splinetool/react-spline": "^2.2.6",
+    "@splinetool/runtime": "^0.9.345",
     "@t3-oss/env-nextjs": "^0.3.1",
     "next": "^13.4.2",
     "react": "18.2.0",
