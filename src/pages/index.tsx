@@ -9,7 +9,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>
-          MemoriaMatch | Play Memory Match - Test Your Memory Skills
+          MemoriaMatch | Play 3D Memory Match - Test Your Memory Skills
         </title>
         <meta
           name="description"
