@@ -9,7 +9,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>
-          MemoriaMatch | Play 3D Memory Match - Test Your Memory Skills
+          MemoriaMatch3D | Play 3D Memory Match - Test Your Memory Skills
         </title>
         <meta
           name="description"
@@ -21,9 +21,10 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <Title/>
+      <main className="flex min-h-screen">
+        <div className="container flex ">
+          <div className="w-full sm:min-w-[1280px] mx-auto h-[200px]">
+          <Title/></div>
         </div>
       </main>
     </>
