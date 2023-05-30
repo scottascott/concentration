@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 import Title from "./components/title";
+import Game from "./components/game";
 
 const Home: NextPage = () => {
   return (
@@ -21,10 +22,14 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen">
-        <div className="container flex ">
-          <div className="w-full sm:min-w-[1280px] mx-auto h-[200px]">
-          <Title/></div>
+      <main className="flex min-h-screen w-full">
+        <div className="container mx-auto flex">
+          <div className="mx-auto h-[200px] w-full sm:w-[1080px]">
+            <Title />
+
+            {/* game */}
+            <Game />
+          </div>
         </div>
       </main>
     </>
