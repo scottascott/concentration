@@ -2,11 +2,14 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useState } from "react";
 import ReactCardFlip from "react-card-flip";
 export default function Card() {
-    // const variables
+  // const variables
   const cardWidth = 122;
   const cardHeight = 200;
 
+  // status
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
+
+  // fake 3d look at
   const x = useMotionValue(cardWidth / 2);
   const y = useMotionValue(cardHeight / 2);
 
@@ -44,14 +47,13 @@ export default function Card() {
       >
         <motion.div
           style={{
-            width: 50,
-            height: 50,
-            borderRadius: 30,
-            backgroundColor: "red",
+            fontSize: 80,
             rotateX: rotateX,
             rotateY: rotateY,
           }}
-        />
+        >
+          <span>&#127789;</span>
+        </motion.div>
       </div>
       {/* back */}
       <div
