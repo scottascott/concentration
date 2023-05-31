@@ -5,10 +5,12 @@ import wildSet from "./cardsSet/wild";
 import Card from "./card";
 
 export default function Game() {
-  //   <span>&#128303;</span> back
   return (
-    <div className="rounded-lg border-4 border-solid border-indigo-500 p-[50px] shadow-lg">
-      <Card/>
+    <div className="rounded-lg py-[150px] shadow-lg">
+      {/* cards */}
+      <div className="mx-auto grid grid-cols-5 gap-8 w-fit">
+        <Card />
+      </div>
     </div>
   );
 }

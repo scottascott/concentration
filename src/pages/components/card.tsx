@@ -3,8 +3,8 @@ import { useState } from "react";
 import ReactCardFlip from "react-card-flip";
 export default function Card() {
   // const variables
-  const cardWidth = 122;
-  const cardHeight = 200;
+  const cardWidth = 92;
+  const cardHeight = 150;
 
   // status
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
@@ -34,7 +34,7 @@ export default function Card() {
     <ReactCardFlip
       isFlipped={isFlipped}
       flipDirection="horizontal"
-      containerClassName={`flex flex-col w-[122px] h-[200px]`}
+      containerClassName={`flex flex-col w-[92px] h-[150px]`}
     >
       {/* front */}
       <div
@@ -47,7 +47,7 @@ export default function Card() {
       >
         <motion.div
           style={{
-            fontSize: 80,
+            fontSize: 72,
             rotateX: rotateX,
             rotateY: rotateY,
           }}
