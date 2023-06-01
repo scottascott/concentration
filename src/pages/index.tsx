@@ -6,6 +6,7 @@ import Title from "./components/title";
 import Game from "./components/game";
 import ToolBar from "./components/toolbar";
 import Menu from "./components/menu";
+import Footer from "./components/footer";
 import { useState } from "react";
 
 const Home: NextPage = () => {
@@ -19,10 +20,10 @@ const Home: NextPage = () => {
    */
   const [type, setType] = useState<number>(-1);
 
-  const chooseCardType=(type:number)=>{
+  const chooseCardType = (type: number) => {
     setType(type);
     setIsMenuOpen(false);
-  }
+  };
   return (
     <>
       <Head>
@@ -50,7 +51,9 @@ const Home: NextPage = () => {
           chooseCardType={chooseCardType}
         />
         {/* content */}
-        <div className={`container mx-auto flex ${isMenuOpen?"blur-md":""}`}>
+        <div
+          className={`container mx-auto flex ${isMenuOpen ? "blur-md" : ""}`}
+        >
           <div className="mx-auto h-[200px] w-full sm:w-[1080px]">
             <Title />
             <ToolBar
@@ -59,7 +62,8 @@ const Home: NextPage = () => {
               }}
             />
             {/* game */}
-            <Game type={type}/>
+            <Game type={type} />
+          <Footer />
           </div>
         </div>
       </main>

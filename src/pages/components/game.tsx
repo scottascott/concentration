@@ -104,7 +104,7 @@ export default function Game(props: { type: number }) {
   };
 
   return (
-    <div className="rounded-lg py-[20px] shadow-lg">
+    <div className="mt-[-60px] sm:mt-0 origin-top scale-75 rounded-lg py-[20px] sm:scale-100 sm:shadow-lg">
       {/* bottom toolbar */}
       <div className="mb-20 flex justify-center">
         {!playing && column > 4 && (
@@ -135,7 +135,7 @@ export default function Game(props: { type: number }) {
       </div>
       {/* cards */}
       <div
-        className="mx-auto grid w-fit grid-flow-col grid-rows-4 gap-8"
+        className="mx-auto grid w-fit grid-cols-4 gap-8 sm:grid-flow-col sm:grid-rows-4 "
         ref={animationParent}
       >
         {curCards.map((card: GameCardProps, index: number) => {
