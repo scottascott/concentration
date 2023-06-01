@@ -1,10 +1,15 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
-import { useState } from "react";
+import { useState, ReactNode, useMemo } from "react";
 import ReactCardFlip from "react-card-flip";
-import CardProps from "./cardsSet/interface";
+export interface GameCardProps {
+  status: number;
+  originId: number;
+  id: number;
+  content: ReactNode;
+}
 
-export default function Card(props: CardProps) {
-  const { id, content } = props;
+export default function Card(props: GameCardProps) {
+  const { id, originId, content, status = 0 } = props;
   // const variables
   const cardWidth = 92;
   const cardHeight = 150;
@@ -15,7 +20,10 @@ export default function Card(props: CardProps) {
    * 1 done √
    * 2 undone ×
    */
-  const [isFlipped, setIsFlipped] = useState<boolean>(false);
+  const isFlipped: boolean = useMemo(() => {
+    if (status == 2) return true;
+    else return false;
+  }, [status]);
 
   // fake 3d look at
   const x = useMotionValue(cardWidth / 2);
@@ -47,7 +55,7 @@ export default function Card(props: CardProps) {
       {/* front */}
       <div
         onClick={() => {
-          setIsFlipped(!isFlipped);
+          // setIsFlipped(!isFlipped);
         }}
         className="flex h-full  cursor-pointer items-center justify-center rounded-md ring-2 ring-purple-500 ring-offset-4 ring-offset-slate-50"
         onMouseMove={handleMouse}
@@ -66,7 +74,10 @@ export default function Card(props: CardProps) {
       {/* back */}
       <div
         onClick={() => {
-          setIsFlipped(!isFlipped);
+          if(status==2){
+            
+          }
+          // setIsFlipped(!isFlipped);
         }}
         className="flex h-full cursor-pointer items-center justify-center rounded-md border-8 border-double border-black bg-violet-300 text-[60px] ring-2 ring-purple-500 ring-offset-4 ring-offset-slate-50"
       >

@@ -48,3 +48,8 @@
 .cube_minus a:after{
   content: "-";
 }
+
+.cube_start a:before,
+.cube_start a:after{
+  content: "GO!";
+}
