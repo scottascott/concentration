@@ -41,6 +41,7 @@ export default function Game(props: { type: number }) {
 
   // cards displaying
   const [curCards, setCurCards] = useState<GameCardProps[]>([]);
+  const [curIndex, setCurIndex] = useState<number>(-2);
   const [lastIndex, setLastIndex] = useState<number>(-1); //-1 means no last card
 
   useMemo(() => {
@@ -59,11 +60,37 @@ export default function Game(props: { type: number }) {
   }, [column, cardSet]);
 
   const clickCard = (id: number) => {
-    let tmpCards = curCards;
-    if (lastIndex == -1) {
-      setLastIndex(id);
+    let tmpCards: GameCardProps[] = curCards.slice(0);
+    setCurIndex(id);
+    if (lastIndex < 0) {
+      setLastIndex(curIndex);
+    } else {
+      setLastIndex(-1);
     }
+    tmpCards = curCards.map((card: GameCardProps) => {
+      if (card.id == id) return { ...card, status: 1 };
+      else return card;
+    });
+    setCurCards(tmpCards);
   };
+
+  useMemo(() => {
+    if (lastIndex > 0) {
+      if (Math.floor(curIndex / 2) == Math.floor(lastIndex / 2)) {
+        // console.log("match!");
+      } else {
+        let tmpCards: GameCardProps[] = curCards.slice(0);
+        tmpCards = curCards.map((card: GameCardProps) => {
+          if (card.id == curIndex || card.id == lastIndex)
+            return { ...card, status: 2 };
+          else return card;
+        });
+        setTimeout(() => {
+          setCurCards(tmpCards);
+        }, 500);
+      }
+    }
+  }, [curIndex, lastIndex]);
 
   const go = async () => {
     let rCards = curCards.map((card) => {
@@ -92,6 +119,7 @@ export default function Game(props: { type: number }) {
               status={status}
               id={id}
               key={id}
+              clickCard={clickCard}
             />
           );
         })}

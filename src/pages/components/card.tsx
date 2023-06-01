@@ -6,10 +6,11 @@ export interface GameCardProps {
   originId: number;
   id: number;
   content: ReactNode;
+  clickCard?: (id: number) => void;
 }
 
 export default function Card(props: GameCardProps) {
-  const { id, originId, content, status = 0 } = props;
+  const { id, originId, content, status = 0, clickCard } = props;
   // const variables
   const cardWidth = 92;
   const cardHeight = 150;
@@ -74,8 +75,8 @@ export default function Card(props: GameCardProps) {
       {/* back */}
       <div
         onClick={() => {
-          if(status==2){
-            
+          if (status == 2 && clickCard) {
+            clickCard(id);
           }
           // setIsFlipped(!isFlipped);
         }}
