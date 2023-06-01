@@ -4,9 +4,17 @@ import Link from "next/link";
 
 import Title from "./components/title";
 import Game from "./components/game";
+import ToolBar from "./components/toolbar";
 import Menu from "./components/menu";
+import { useState } from "react";
 
 const Home: NextPage = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [type, setType] = useState<number>(0);
+
+  const chooseCardType=(type:number)=>{
+
+  }
   return (
     <>
       <Head>
@@ -25,12 +33,21 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex min-h-screen w-full">
         {/* menu */}
-        <Menu />
+        <Menu
+          isOpen={isMenuOpen}
+          closeMenu={() => {
+            setIsMenuOpen(false);
+          }}
+        />
         {/* content */}
-        <div className="container mx-auto flex">
+        <div className={`container mx-auto flex ${isMenuOpen?"blur-md":""}`}>
           <div className="mx-auto h-[200px] w-full sm:w-[1080px]">
             <Title />
-
+            <ToolBar
+              openMenu={() => {
+                setIsMenuOpen(true);
+              }}
+            />
             {/* game */}
             <Game />
           </div>

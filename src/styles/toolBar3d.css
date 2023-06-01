@@ -1,0 +1,41 @@
+.cube {
+  position: relative;
+  display: inline-flex;
+  width: 100px;
+  height: 55px;
+  margin: 0 15px;
+  perspective: 1000px;
+}
+.cube a {
+  font-size: 19px;
+  letter-spacing: 1px;
+  transform-style: preserve-3d;
+  transform: translateZ(-25px);
+  transition: transform 0.25s;
+  font-family: "Montserrat", sans-serif;
+}
+.cube a:before,
+.cube a:after {
+  position: absolute;
+  content: "ABOUT";
+  height: 55px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid purple;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+.cube a:before {
+  color: #fff;
+  background: purple;
+  transform: rotateY(0deg) translateZ(25px);
+}
+.cube a:after {
+  color: purple;
+  transform: rotateX(90deg) translateZ(25px);
+}
+.cube a:hover {
+  transform: translateZ(-25px) rotateX(-90deg);
+}
