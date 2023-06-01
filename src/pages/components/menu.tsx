@@ -2,9 +2,10 @@ interface Props {
   closeMenu: () => void;
   chooseCardType: (c: number) => void;
   isOpen: boolean;
+  type: number;
 }
 const Menu = (props: Props) => {
-  const { isOpen, closeMenu, chooseCardType } = props;
+  const { isOpen, closeMenu, chooseCardType, type } = props;
   // card type
   const Menu1 = (
     <>
@@ -12,10 +13,12 @@ const Menu = (props: Props) => {
         <h4 className="mb-[12px] font-bold uppercase text-white drop-shadow-[3px_3px_0_rgba(0,0,0)]">
           Choose Card Type
         </h4>
-        <button onClick={()=>chooseCardType(0)}>world</button>
-        <button onClick={()=>chooseCardType(1)}>dilicious</button>
-        <button onClick={()=>chooseCardType(2)}>fresh</button>
-        <button onClick={()=>chooseCardType(3)}>wild</button>
+        {type > 0 && <button onClick={() => chooseCardType(0)}>world</button>}
+        {type != 1 && (
+          <button onClick={() => chooseCardType(1)}>dilicious</button>
+        )}
+        {type != 2 && <button onClick={() => chooseCardType(2)}>fresh</button>}
+        {type != 3 && <button onClick={() => chooseCardType(3)}>wild</button>}
         <button className="bg-gray-200" onClick={closeMenu}>
           Cancel
         </button>

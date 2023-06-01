@@ -43,6 +43,7 @@ const Home: NextPage = () => {
         {/* menu */}
         <Menu
           isOpen={isMenuOpen}
+          type={type}
           closeMenu={() => {
             setIsMenuOpen(false);
           }}

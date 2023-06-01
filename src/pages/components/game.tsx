@@ -104,28 +104,9 @@ export default function Game(props: { type: number }) {
   };
 
   return (
-    <div className="rounded-lg py-[100px] shadow-lg">
-      {/* cards */}
-      <div
-        className="mx-auto grid w-fit grid-flow-col grid-rows-4 gap-8"
-        ref={animationParent}
-      >
-        {curCards.map((card: GameCardProps, index: number) => {
-          const { originId, content, status, id } = card;
-          return (
-            <Card
-              originId={originId}
-              content={content}
-              status={status}
-              id={id}
-              key={id}
-              clickCard={clickCard}
-            />
-          );
-        })}
-      </div>
+    <div className="rounded-lg py-[20px] shadow-lg">
       {/* bottom toolbar */}
-      <div className="mt-20 flex justify-center">
+      <div className="mb-20 flex justify-center">
         {!playing && column > 4 && (
           <div
             className="cube cube_minus cursor-pointer"
@@ -151,6 +132,25 @@ export default function Game(props: { type: number }) {
             <a></a>
           </div>
         )}
+      </div>
+      {/* cards */}
+      <div
+        className="mx-auto grid w-fit grid-flow-col grid-rows-4 gap-8"
+        ref={animationParent}
+      >
+        {curCards.map((card: GameCardProps, index: number) => {
+          const { originId, content, status, id } = card;
+          return (
+            <Card
+              originId={originId}
+              content={content}
+              status={status}
+              id={id}
+              key={id}
+              clickCard={clickCard}
+            />
+          );
+        })}
       </div>
     </div>
   );
