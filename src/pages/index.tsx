@@ -10,10 +10,18 @@ import { useState } from "react";
 
 const Home: NextPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  /**
+   * *** TYPE ***
+   * 0:world
+   * 1:dilicious
+   * 2:fresh
+   * 3:wild
+   */
   const [type, setType] = useState<number>(0);
 
   const chooseCardType=(type:number)=>{
-
+    setType(type);
+    setIsMenuOpen(false);
   }
   return (
     <>
@@ -38,6 +46,7 @@ const Home: NextPage = () => {
           closeMenu={() => {
             setIsMenuOpen(false);
           }}
+          chooseCardType={chooseCardType}
         />
         {/* content */}
         <div className={`container mx-auto flex ${isMenuOpen?"blur-md":""}`}>
@@ -49,7 +58,7 @@ const Home: NextPage = () => {
               }}
             />
             {/* game */}
-            <Game />
+            <Game type={type}/>
           </div>
         </div>
       </main>

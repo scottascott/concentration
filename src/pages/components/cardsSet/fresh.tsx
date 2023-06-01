@@ -1,9 +1,4 @@
-import { ReactNode } from "react";
-
-interface CardProps {
-  id: number;
-  content: ReactNode;
-}
+import CardProps from "./interface";
 
 const freshSet: CardProps[] = [
   { id: 1, content: <span>&#127812;</span> },

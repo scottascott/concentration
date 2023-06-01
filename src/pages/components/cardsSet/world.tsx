@@ -1,9 +1,4 @@
-import { ReactNode } from "react";
-
-interface CardProps {
-  id: number;
-  content: ReactNode;
-}
+import CardProps from "./interface";
 
 const worldSet: CardProps[] = [
   { id: 1, content: <span>&#9924;</span> },

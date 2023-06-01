@@ -1,9 +1,4 @@
-import { ReactNode } from "react";
-
-interface CardProps {
-  id: number;
-  content: ReactNode;
-}
+import CardProps from "./interface";
 
 const deliciousSet: CardProps[] = [
   { id: 1, content: <span>&#127789;</span> },

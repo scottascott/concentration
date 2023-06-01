@@ -1,7 +1,10 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useState } from "react";
 import ReactCardFlip from "react-card-flip";
-export default function Card() {
+import CardProps from "./cardsSet/interface";
+
+export default function Card(props: CardProps) {
+  const { id, content } = props;
   // const variables
   const cardWidth = 92;
   const cardHeight = 150;
@@ -52,7 +55,7 @@ export default function Card() {
             rotateY: rotateY,
           }}
         >
-          <span>&#127789;</span>
+          {content}
         </motion.div>
       </div>
       {/* back */}
