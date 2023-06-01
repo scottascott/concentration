@@ -135,7 +135,7 @@ export default function Game(props: { type: number }) {
       </div>
       {/* cards */}
       <div
-        className="mx-auto grid w-fit grid-cols-4 gap-8 sm:grid-flow-col sm:grid-rows-4 "
+        className="mx-auto grid sm:pb-[60px] w-fit grid-cols-4 gap-8 sm:grid-flow-col sm:grid-rows-4 "
         ref={animationParent}
       >
         {curCards.map((card: GameCardProps, index: number) => {
