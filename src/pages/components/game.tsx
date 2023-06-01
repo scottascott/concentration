@@ -11,9 +11,9 @@ import CardProps from "./cardsSet/interface";
 export default function Game(props: { type: number }) {
   const { type } = props;
   const [animationParent] = useAutoAnimate();
-  // size from 4*6=24 -> 7*6=42
-  const column = 6;
-  const [row, setRow] = useState<number>(4);
+  // size from 4*4=16 -> 4*7=28
+  const row = 4;
+  const [column, setColumn] = useState<number>(5);
   const cardSet: CardProps[] = useMemo(() => {
     /**
      * *** TYPE ***
@@ -32,7 +32,7 @@ export default function Game(props: { type: number }) {
       case 3:
         return shuffle(wildSet);
       default:
-        return shuffle(worldSet);
+        return worldSet;
     }
   }, [type]);
 
@@ -45,12 +45,12 @@ export default function Game(props: { type: number }) {
       }
     });
     return rCards;
-  }, [row, cardSet]);
+  }, [column, cardSet]);
   return (
     <div className="rounded-lg py-[100px] shadow-lg">
       {/* cards */}
       <div
-        className="mx-auto grid w-fit grid-cols-6 gap-8"
+        className="mx-auto grid w-fit grid-flow-col grid-rows-4 gap-8"
         ref={animationParent}
       >
         {currentCards.map((card: CardProps, index: number) => {
@@ -58,20 +58,20 @@ export default function Game(props: { type: number }) {
         })}
       </div>
       <div
-        className="inline h-20 w-20 cursor-pointer bg-red-500"
+        className="cube cube_minus cursor-pointer"
         onClick={() => {
-          setRow(row - 1);
+          setColumn(column - 1);
         }}
       >
-        -
+        <a></a>
       </div>
       <div
-        className="ml-20 inline h-20 w-20 cursor-pointer bg-red-500"
+        className="cube cube_add cursor-pointer"
         onClick={() => {
-          setRow(row + 1);
+          setColumn(column + 1);
         }}
       >
-        +
+        <a></a>
       </div>
     </div>
   );

@@ -10,6 +10,11 @@ export default function Card(props: CardProps) {
   const cardHeight = 150;
 
   // status
+  /**
+   * 0 init √
+   * 1 done √
+   * 2 undone ×
+   */
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
 
   // fake 3d look at

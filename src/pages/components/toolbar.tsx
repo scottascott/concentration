@@ -11,9 +11,6 @@ export default function ToolBar(props: Props) {
       >
         new game
       </div>
-      <div className="cube cursor-pointer">
-        <a></a>
-      </div>
     </div>
   );
 }

@@ -12,12 +12,12 @@ const Home: NextPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   /**
    * *** TYPE ***
-   * 0:world
+   * 0:world(default)
    * 1:dilicious
    * 2:fresh
    * 3:wild
    */
-  const [type, setType] = useState<number>(0);
+  const [type, setType] = useState<number>(-1);
 
   const chooseCardType=(type:number)=>{
     setType(type);
