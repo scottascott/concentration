@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import { useSound } from "~/context/soundContext";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -7,9 +8,19 @@ import Game from "./components/game";
 import ToolBar from "./components/toolbar";
 import Menu from "./components/menu";
 import Footer from "./components/footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
+  // sound
+  const { sound } = useSound();
+  const [clickAudio, setClickAudio] = useState<HTMLAudioElement | undefined>();
+  useEffect(() => {
+    setClickAudio(new Audio("/audios/click.wav"));
+  }, []);
+  const clickPlay = () => {
+    if (sound) clickAudio?.play();
+  };
+
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   /**
    * *** TYPE ***
@@ -21,6 +32,7 @@ const Home: NextPage = () => {
   const [type, setType] = useState<number>(-1);
 
   const chooseCardType = (type: number) => {
+    clickPlay();
     setType(type);
     setIsMenuOpen(false);
   };
@@ -46,6 +58,7 @@ const Home: NextPage = () => {
           isOpen={isMenuOpen}
           type={type}
           closeMenu={() => {
+            clickPlay();
             setIsMenuOpen(false);
           }}
           chooseCardType={chooseCardType}
@@ -63,7 +76,7 @@ const Home: NextPage = () => {
             />
             {/* game */}
             <Game type={type} />
-          <Footer />
+            <Footer />
           </div>
         </div>
       </main>

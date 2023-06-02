@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import worldSet from "./cardsSet/world";
 import deliciousSet from "./cardsSet/delicious";
@@ -9,8 +9,45 @@ import shuffle from "~/utils/shuffle";
 import double from "~/utils/double";
 import CardProps from "./cardsSet/interface";
 import { GameCardProps } from "./card";
+import { useSound } from "~/context/soundContext";
 
 export default function Game(props: { type: number }) {
+  // sound
+  const { sound } = useSound();
+  const [clickAudio, setclickAudio] = useState<HTMLAudioElement | undefined>();
+  const [cutAudio, setcutAudio] = useState<HTMLAudioElement | undefined>();
+  const [pairAudio, setpairAudio] = useState<HTMLAudioElement | undefined>();
+  const [errorAudio, seterrorAudio] = useState<HTMLAudioElement | undefined>();
+  const [shuffleAudio, setshuffleAudio] = useState<
+    HTMLAudioElement | undefined
+  >();
+  useEffect(() => {
+    setclickAudio(new Audio("/audios/click.wav"));
+    setcutAudio(new Audio("/audios/cut.wav"));
+    setpairAudio(new Audio("/audios/pair.mp3"));
+    seterrorAudio(new Audio("/audios/error.wav"));
+    setshuffleAudio(new Audio("/audios/shuffle.wav"));
+  }, []);
+  const audioPlay = (type?: number) => {
+    if (sound) {
+      switch (type) {
+        case 0:
+          cutAudio?.play();
+          break;
+        case 1:
+          pairAudio?.play();
+          break;
+        case 2:
+          errorAudio?.play();
+          break;
+        case 3:
+          shuffleAudio?.play();
+          break;
+        default:
+          clickAudio?.play();
+      }
+    }
+  };
   const { type } = props;
   const [animationParent] = useAutoAnimate();
   // size from 4*4=16 -> 4*7=28
@@ -94,12 +131,14 @@ export default function Game(props: { type: number }) {
       else return card;
     });
     setCurCards(tmpCards);
+    audioPlay(0);
   };
 
   useMemo(() => {
     if (lastIndex > 0) {
       if (Math.floor(curIndex / 2) == Math.floor(lastIndex / 2)) {
         // console.log("match!");
+        audioPlay(1);
       } else {
         let tmpCards: GameCardProps[] = curCards.slice(0);
         tmpCards = curCards.map((card: GameCardProps) => {
@@ -107,6 +146,7 @@ export default function Game(props: { type: number }) {
             return { ...card, status: 2 };
           else return card;
         });
+        audioPlay(2);
         setTimeout(() => {
           setCurCards(tmpCards);
         }, 500);
@@ -123,6 +163,7 @@ export default function Game(props: { type: number }) {
     });
     setPlaying(true);
     setCurCards(shuffle(rCards));
+    audioPlay(3);
   };
 
   return (
@@ -142,6 +183,7 @@ export default function Game(props: { type: number }) {
           <div
             className="cube cube_minus cursor-pointer"
             onClick={() => {
+              audioPlay();
               setColumn(column - 1);
             }}
           >
@@ -152,6 +194,7 @@ export default function Game(props: { type: number }) {
           <div
             className="cube cube_add cursor-pointer"
             onClick={() => {
+              audioPlay();
               setColumn(column + 1);
             }}
           >

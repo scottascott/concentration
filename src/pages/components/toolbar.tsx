@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Spline from "@splinetool/react-spline";
 import { Tooltip, Tour } from "antd";
 import type { TourProps } from "antd";
@@ -9,6 +9,14 @@ interface Props {
 export default function ToolBar(props: Props) {
   // sound
   const { sound, setSound } = useSound();
+  const [clickAudio, setClickAudio] = useState<HTMLAudioElement | undefined>();
+  useEffect(() => {
+    setClickAudio(new Audio("/audios/click.wav"));
+  }, []);
+  const clickPlay = () => {
+    if (sound) clickAudio?.play();
+  };
+
   // for tour guide
   const ref = useRef(null);
   const [open, setOpen] = useState<boolean>(false);
@@ -66,7 +74,10 @@ export default function ToolBar(props: Props) {
       <Tooltip title="Guide" color={"#a855f7"}>
         <div
           className="hidden w-[120px] cursor-pointer sm:inline-block"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            clickPlay();
+            setOpen(true);
+          }}
         >
           <Spline scene="/assets/tip.splinecode" />
         </div>
@@ -78,10 +89,11 @@ export default function ToolBar(props: Props) {
         </div>
       </Tooltip> */}
       {/* audio */}
-      <Tooltip title="Audio" color={"#a855f7"}>
+      <Tooltip title="Sound Effect" color={"#a855f7"}>
         <div
           className={`w-[120px] cursor-pointer ${sound ? "" : "grayscale"}`}
           onClick={() => {
+            clickPlay();
             setSound(!sound);
           }}
         >
@@ -91,7 +103,13 @@ export default function ToolBar(props: Props) {
       {/* theme */}
       <Tooltip title="Theme" color={"#a855f7"}>
         <div className="w-[120px] cursor-pointer" ref={ref}>
-          <Spline onClick={openMenu} scene="/assets/theme.splinecode" />
+          <Spline
+            onClick={() => {
+              clickPlay();
+              openMenu();
+            }}
+            scene="/assets/theme.splinecode"
+          />
         </div>
       </Tooltip>
       <Tour open={open} onClose={() => setOpen(false)} steps={steps} />
