@@ -7,6 +7,7 @@ await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
 
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config

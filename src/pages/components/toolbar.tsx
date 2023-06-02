@@ -75,7 +75,7 @@ export default function ToolBar(props: Props) {
         <div
           className="hidden w-[120px] cursor-pointer sm:inline-block"
           onClick={() => {
-            clickPlay();
+            void clickPlay();
             setOpen(true);
           }}
         >
@@ -93,7 +93,7 @@ export default function ToolBar(props: Props) {
         <div
           className={`w-[120px] cursor-pointer ${sound ? "" : "grayscale"}`}
           onClick={() => {
-            clickPlay();
+            void clickPlay();
             setSound(!sound);
           }}
         >
@@ -105,7 +105,7 @@ export default function ToolBar(props: Props) {
         <div className="w-[120px] cursor-pointer" ref={ref}>
           <Spline
             onClick={() => {
-              clickPlay();
+              void clickPlay();
               openMenu();
             }}
             scene="/assets/theme.splinecode"

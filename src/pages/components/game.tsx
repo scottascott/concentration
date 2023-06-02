@@ -131,14 +131,14 @@ export default function Game(props: { type: number }) {
       else return card;
     });
     setCurCards(tmpCards);
-    audioPlay(0);
+    void audioPlay(0);
   };
 
   useMemo(() => {
     if (lastIndex > 0) {
       if (Math.floor(curIndex / 2) == Math.floor(lastIndex / 2)) {
         // console.log("match!");
-        audioPlay(1);
+        void audioPlay(1);
       } else {
         let tmpCards: GameCardProps[] = curCards.slice(0);
         tmpCards = curCards.map((card: GameCardProps) => {
@@ -146,13 +146,13 @@ export default function Game(props: { type: number }) {
             return { ...card, status: 2 };
           else return card;
         });
-        audioPlay(2);
+        void audioPlay(2);
         setTimeout(() => {
           setCurCards(tmpCards);
         }, 500);
       }
     }
-  }, [curIndex, lastIndex]);
+  }, [curIndex]);
 
   const go = () => {
     const rCards = curCards.map((card) => {
@@ -163,7 +163,7 @@ export default function Game(props: { type: number }) {
     });
     setPlaying(true);
     setCurCards(shuffle(rCards));
-    audioPlay(3);
+    void audioPlay(3);
   };
 
   return (
@@ -183,7 +183,7 @@ export default function Game(props: { type: number }) {
           <div
             className="cube cube_minus cursor-pointer"
             onClick={() => {
-              audioPlay();
+              void audioPlay();
               setColumn(column - 1);
             }}
           >
@@ -194,7 +194,7 @@ export default function Game(props: { type: number }) {
           <div
             className="cube cube_add cursor-pointer"
             onClick={() => {
-              audioPlay();
+              void audioPlay();
               setColumn(column + 1);
             }}
           >
@@ -212,7 +212,7 @@ export default function Game(props: { type: number }) {
         className="mx-auto grid w-fit grid-cols-4 gap-8 sm:grid-flow-col sm:grid-rows-4 sm:pb-[60px] "
         ref={animationParent}
       >
-        {curCards.map((card: GameCardProps, index: number) => {
+        {curCards.map((card: GameCardProps) => {
           const { originId, content, status, id } = card;
           return (
             <Card

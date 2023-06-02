@@ -31,7 +31,7 @@ const Home: NextPage = () => {
   const [type, setType] = useState<number>(-1);
 
   const chooseCardType = (type: number) => {
-    clickPlay();
+    void clickPlay();
     setType(type);
     setIsMenuOpen(false);
   };
@@ -57,7 +57,7 @@ const Home: NextPage = () => {
           isOpen={isMenuOpen}
           type={type}
           closeMenu={() => {
-            clickPlay();
+            void clickPlay();
             setIsMenuOpen(false);
           }}
           chooseCardType={chooseCardType}
