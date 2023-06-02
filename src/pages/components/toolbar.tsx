@@ -13,8 +13,8 @@ export default function ToolBar(props: Props) {
   useEffect(() => {
     setClickAudio(new Audio("/audios/click.wav"));
   }, []);
-  const clickPlay = () => {
-    if (sound) clickAudio?.play();
+  const clickPlay = async () => {
+    if (sound) await clickAudio?.play();
   };
 
   // for tour guide

@@ -1,7 +1,6 @@
 import { type NextPage } from "next";
 import { useSound } from "~/context/soundContext";
 import Head from "next/head";
-import Link from "next/link";
 
 import Title from "./components/title";
 import Game from "./components/game";
@@ -17,8 +16,8 @@ const Home: NextPage = () => {
   useEffect(() => {
     setClickAudio(new Audio("/audios/click.wav"));
   }, []);
-  const clickPlay = () => {
-    if (sound) clickAudio?.play();
+  const clickPlay = async () => {
+    if (sound) await clickAudio?.play();
   };
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);

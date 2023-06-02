@@ -1,17 +1,13 @@
-export default function shuffle(array: Array<any>) {
-  let currentIndex = array.length,
-    randomIndex;
+export default function shuffle<T>(array: (T | undefined)[]): T[] {
+  const newArray = [...array]; // Create a copy of the original array
 
-  while (currentIndex != 0) {
-    // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]] as [
+      T | undefined,
+      T | undefined
     ];
   }
 
-  return array;
+  return newArray as T[];
 }
