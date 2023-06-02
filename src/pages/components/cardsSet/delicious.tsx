@@ -1,4 +1,4 @@
-import CardProps from "./interface";
+import type CardProps from "./interface";
 
 const deliciousSet: CardProps[] = [
   { id: 1, content: <span>&#127789;</span> },

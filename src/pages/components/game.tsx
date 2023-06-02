@@ -7,8 +7,8 @@ import wildSet from "./cardsSet/wild";
 import Card from "./card";
 import shuffle from "~/utils/shuffle";
 import double from "~/utils/double";
-import CardProps from "./cardsSet/interface";
-import { GameCardProps } from "./card";
+import type CardProps from "./cardsSet/interface";
+import { type GameCardProps } from "./card";
 import { useSound } from "~/context/soundContext";
 
 export default function Game(props: { type: number }) {
@@ -28,23 +28,23 @@ export default function Game(props: { type: number }) {
     seterrorAudio(new Audio("/audios/error.wav"));
     setshuffleAudio(new Audio("/audios/shuffle.wav"));
   }, []);
-  const audioPlay = (type?: number) => {
+  const audioPlay = async (type?: number) => {
     if (sound) {
       switch (type) {
         case 0:
-          cutAudio?.play();
+          await cutAudio?.play();
           break;
         case 1:
-          pairAudio?.play();
+          await pairAudio?.play();
           break;
         case 2:
-          errorAudio?.play();
+          await errorAudio?.play();
           break;
         case 3:
-          shuffleAudio?.play();
+          await shuffleAudio?.play();
           break;
         default:
-          clickAudio?.play();
+          await clickAudio?.play();
       }
     }
   };
@@ -154,8 +154,8 @@ export default function Game(props: { type: number }) {
     }
   }, [curIndex, lastIndex]);
 
-  const go = async () => {
-    let rCards = curCards.map((card) => {
+  const go = () => {
+    const rCards = curCards.map((card) => {
       return {
         ...card,
         status: 2,

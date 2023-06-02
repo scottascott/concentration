@@ -1,5 +1,4 @@
 import { LinkedinOutlined } from "@ant-design/icons";
-import { Switch } from "antd";
 export default function Footer() {
   return (
     <div className="w-full py-[50px] text-center">

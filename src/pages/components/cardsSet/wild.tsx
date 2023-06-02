@@ -1,4 +1,4 @@
-import CardProps from "./interface";
+import type CardProps from "./interface";
 
 const wildSet: CardProps[] = [
   { id: 1, content: <span>&#128000;</span> },

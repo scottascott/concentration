@@ -1,4 +1,4 @@
-import CardProps from "./interface";
+import type CardProps from "./interface";
 
 const worldSet: CardProps[] = [
   { id: 1, content: <span>&#9924;</span> },

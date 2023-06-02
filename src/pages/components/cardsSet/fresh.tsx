@@ -1,4 +1,4 @@
-import CardProps from "./interface";
+import type CardProps from "./interface";
 
 const freshSet: CardProps[] = [
   { id: 1, content: <span>&#127812;</span> },

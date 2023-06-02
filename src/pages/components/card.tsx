@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
-import { useState, ReactNode, useMemo } from "react";
+import { type ReactNode, useMemo } from "react";
 import ReactCardFlip from "react-card-flip";
 export interface GameCardProps {
   status: number;
@@ -9,8 +9,13 @@ export interface GameCardProps {
   clickCard?: (id: number) => void;
 }
 
+interface RectProps {
+  left: number;
+  top: number;
+}
+
 export default function Card(props: GameCardProps) {
-  const { id, originId, content, status = 0, clickCard } = props;
+  const { id, content, status = 0, clickCard } = props;
   // const variables
   const cardWidth = 92;
   const cardHeight = 150;
@@ -34,11 +39,11 @@ export default function Card(props: GameCardProps) {
   const rotateY = useTransform(x, [0, cardWidth], [-45, 45]);
 
   function handleMouse(event: {
-    currentTarget: { getBoundingClientRect: () => any };
+    currentTarget: { getBoundingClientRect: () => RectProps };
     clientX: number;
     clientY: number;
   }) {
-    const rect = event.currentTarget.getBoundingClientRect();
+    const rect: RectProps = event.currentTarget.getBoundingClientRect();
 
     x.set(event.clientX - rect.left);
     y.set(event.clientY - rect.top);
