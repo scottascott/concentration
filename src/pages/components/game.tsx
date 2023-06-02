@@ -39,6 +39,28 @@ export default function Game(props: { type: number }) {
     }
   }, [type]);
 
+  const typeString: string = useMemo(() => {
+    /**
+     * *** TYPE ***
+     * 0:world
+     * 1:dilicious
+     * 2:fresh
+     * 3:wild
+     */
+    switch (type) {
+      case 0:
+        return "World";
+      case 1:
+        return "Dilicious";
+      case 2:
+        return "Fresh";
+      case 3:
+        return "Wild";
+      default:
+        return "World";
+    }
+  }, [type]);
+
   // cards displaying
   const [curCards, setCurCards] = useState<GameCardProps[]>([]);
   const [curIndex, setCurIndex] = useState<number>(-2);
@@ -104,7 +126,16 @@ export default function Game(props: { type: number }) {
   };
 
   return (
-    <div className="mt-[-60px] sm:mt-0 origin-top scale-75 rounded-lg py-[20px] sm:scale-100 sm:shadow-lg">
+    <div className="mt-[-60px] origin-top scale-75 rounded-lg py-[20px] sm:mt-0 sm:scale-100 sm:shadow-lg">
+      {/* basic info */}
+      <div className="py-[10px] text-center">
+        <p>
+          Current Theme: <span className="font-bold">{typeString}</span>
+        </p>
+        <p>
+          Cards Total: <span className="font-bold">{column * row}</span>
+        </p>
+      </div>
       {/* bottom toolbar */}
       <div className="mb-20 flex justify-center">
         {!playing && column > 4 && (
@@ -135,7 +166,7 @@ export default function Game(props: { type: number }) {
       </div>
       {/* cards */}
       <div
-        className="mx-auto grid sm:pb-[60px] w-fit grid-cols-4 gap-8 sm:grid-flow-col sm:grid-rows-4 "
+        className="mx-auto grid w-fit grid-cols-4 gap-8 sm:grid-flow-col sm:grid-rows-4 sm:pb-[60px] "
         ref={animationParent}
       >
         {curCards.map((card: GameCardProps, index: number) => {

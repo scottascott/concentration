@@ -6,7 +6,7 @@
   animation: rotateAngle 6s linear infinite;
 }
 
-button {
+.menu button {
   display: block;
   position: relative;
   margin: 0.5em 0;
@@ -26,13 +26,13 @@ button {
   perspective: 500px;
   transform-style: preserve-3d;
 }
-button span {
+.menu button span {
   mix-blend-mode: none;
   display: block;
 }
 
-button:before,
-button:after {
+.menu button:before,
+.menu button:after {
   --z: 0px;
   position: absolute;
   top: 0;
@@ -51,25 +51,25 @@ button:after {
     calc(var(--z) * 0px)
   );
 }
-button:after {
+.menu button:after {
   background-color: #5d00ff;
 }
 
-button:before {
+.menu button:before {
   background-color: #ff1731;
 }
 
-button:hover {
+.menu button:hover {
   background-color: #fff65b;
   transition: background 0.3s 0.1s;
 }
 
-button:hover:before {
+.menu button:hover:before {
   --z: 0.04;
   animation: translateWobble 2.2s ease forwards;
 }
 
-button:hover:after {
+.menu button:hover:after {
   --z: -0.06;
   animation: translateWobble 2.2s ease forwards;
 }

@@ -25,15 +25,6 @@ const Menu = (props: Props) => {
       </div>
     </>
   );
-  const Menu2 = (
-    <>
-      <div className="menu">
-        <button>New </button>
-        <button>Start2</button>
-        <button>Start2</button>
-      </div>
-    </>
-  );
   if (isOpen)
     return (
       <div className="fixed z-50 flex h-screen w-screen items-center justify-center bg-black/[.45]">
