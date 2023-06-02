@@ -2,10 +2,13 @@ import { useRef, useState } from "react";
 import Spline from "@splinetool/react-spline";
 import { Tooltip, Tour } from "antd";
 import type { TourProps } from "antd";
+import { useSound } from "~/context/soundContext";
 interface Props {
   openMenu: () => void;
 }
 export default function ToolBar(props: Props) {
+  // sound
+  const { sound, setSound } = useSound();
   // for tour guide
   const ref = useRef(null);
   const [open, setOpen] = useState<boolean>(false);
@@ -22,7 +25,7 @@ export default function ToolBar(props: Props) {
       description: (
         <>
           Click here to choose a card theme!
-          <ul className="capitalize list-disc ml-[30px] my-[20px]">
+          <ul className="my-[20px] ml-[30px] list-disc capitalize">
             <li> world</li>
             <li> dilicious</li>
             <li> fresh</li>
@@ -76,7 +79,12 @@ export default function ToolBar(props: Props) {
       </Tooltip> */}
       {/* audio */}
       <Tooltip title="Audio" color={"#a855f7"}>
-        <div className="w-[120px] cursor-pointer">
+        <div
+          className={`w-[120px] cursor-pointer ${sound ? "" : "grayscale"}`}
+          onClick={() => {
+            setSound(!sound);
+          }}
+        >
           <Spline scene="/assets/audio.splinecode" />
         </div>
       </Tooltip>
