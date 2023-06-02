@@ -119,28 +119,26 @@ export default function Game(props: { type: number }) {
   }, [column, cardSet]);
 
   const clickCard = (id: number) => {
-    let tmpCards: GameCardProps[] = curCards.slice(0);
-    setCurIndex(id);
-    if (lastIndex < 0) {
-      setLastIndex(curIndex);
-    } else {
-      setLastIndex(-1);
-    }
+    // set cards
+    let tmpCards: GameCardProps[] = [...curCards];
     tmpCards = curCards.map((card: GameCardProps) => {
       if (card.id == id) return { ...card, status: 1 };
       else return card;
     });
     setCurCards(tmpCards);
+
+    setCurIndex(id);
     void audioPlay(0);
   };
 
   useMemo(() => {
     if (lastIndex > 0) {
+      setLastIndex(-1);
       if (Math.floor(curIndex / 2) == Math.floor(lastIndex / 2)) {
         // console.log("match!");
         void audioPlay(1);
       } else {
-        let tmpCards: GameCardProps[] = curCards.slice(0);
+        let tmpCards: GameCardProps[] = [...curCards];
         tmpCards = curCards.map((card: GameCardProps) => {
           if (card.id == curIndex || card.id == lastIndex)
             return { ...card, status: 2 };
@@ -151,6 +149,8 @@ export default function Game(props: { type: number }) {
           setCurCards(tmpCards);
         }, 500);
       }
+    } else {
+      setLastIndex(curIndex);
     }
   }, [curIndex]);
 
