@@ -15,7 +15,7 @@ export default function Game(props: { type: number }) {
   const [animationParent] = useAutoAnimate();
   // size from 4*4=16 -> 4*7=28
   const row = 4;
-  const [column, setColumn] = useState<number>(4);
+  const [column, setColumn] = useState<number>(5);
   const [playing, setPlaying] = useState<boolean>(false);
   const cardSet: CardProps[] = useMemo(() => {
     /**

@@ -32,7 +32,7 @@ const Home: NextPage = () => {
         </title>
         <meta
           name="description"
-          content="Play Memory Match, a classic card-matching game that challenges your memory and concentration skills. Test your ability to find matching pairs and earn points in this fun and addictive online memory game. Try it now and see how many matches you can make!"
+          content="Play 3D Memory Match, a classic card-matching game that challenges your memory and concentration skills. Test your ability to find matching pairs and earn points in this fun and addictive online memory game. Try it now and see how many matches you can make!"
         />
         <meta
           name="keywords"
