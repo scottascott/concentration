@@ -118,26 +118,31 @@ export default function Game(props: { type: number }) {
     setPlaying(false);
   }, [column, cardSet]);
 
-  const clickCard = (id: number) => {
-    // set cards
-    let tmpCards: GameCardProps[] = [...curCards];
-    tmpCards = curCards.map((card: GameCardProps) => {
-      if (card.id == id) return { ...card, status: 1 };
-      else return card;
-    });
-    setCurCards(tmpCards);
+  const [canPlay, setCanPlay] = useState(true);
 
-    setCurIndex(id);
-    void audioPlay(0);
+  const clickCard = (id: number) => {
+    if (canPlay) {
+      // set cards
+      let tmpCards: GameCardProps[] = [...curCards];
+      tmpCards = curCards.map((card: GameCardProps) => {
+        if (card.id == id) return { ...card, status: 1 };
+        else return card;
+      });
+      setCurCards(tmpCards);
+
+      setCurIndex(id);
+      void audioPlay(0);
+    } else void audioPlay(2);
   };
 
   useMemo(() => {
     if (lastIndex > 0) {
-      setLastIndex(-1);
       if (Math.floor(curIndex / 2) == Math.floor(lastIndex / 2)) {
         // console.log("match!");
         void audioPlay(1);
+        setLastIndex(-1);
       } else {
+        setCanPlay(false);
         let tmpCards: GameCardProps[] = [...curCards];
         tmpCards = curCards.map((card: GameCardProps) => {
           if (card.id == curIndex || card.id == lastIndex)
@@ -147,6 +152,8 @@ export default function Game(props: { type: number }) {
         void audioPlay(2);
         setTimeout(() => {
           setCurCards(tmpCards);
+          setLastIndex(-1);
+          setCanPlay(true);
         }, 500);
       }
     } else {

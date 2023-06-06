@@ -1,7 +1,7 @@
 import type CardProps from "./interface";
 
 const deliciousSet: CardProps[] = [
-  { id: 1, content: <span>&#127789;</span> },
+  { id: 99, content: <span>&#127789;</span> },
   { id: 2, content: <span>&#127790;</span> },
   { id: 3, content: <span>&#127791;</span> },
   { id: 4, content: <span>&#127828;</span> },
