@@ -122,7 +122,7 @@ export default function ToolBar(props: Props) {
           className="w-[120px] cursor-pointer"
           onClick={() => {
             void clickPlay();
-            message.info("Please try guide function in PC browser.")
+            void message.info("Please try guide function in PC browser.")
           }}
         >
           <Spline scene="/assets/tip.splinecode" />
