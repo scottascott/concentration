@@ -10,8 +10,14 @@ import double from "~/utils/double";
 import type CardProps from "./cardsSet/interface";
 import { type GameCardProps } from "./card";
 import { useSound } from "~/context/soundContext";
+import useToggleProcess from "~/store/useToggleProcess";
 
 export default function Game(props: { type: number }) {
+  // game start/not
+  const [isProcessing, toggle] = useToggleProcess((state) => [
+    state.isProcessing,
+    state.toggle,
+  ]);
   // sound
   const { sound } = useSound();
   const [clickAudio, setclickAudio] = useState<HTMLAudioElement | undefined>();
@@ -27,6 +33,7 @@ export default function Game(props: { type: number }) {
     setpairAudio(new Audio("/audios/pair.mp3"));
     seterrorAudio(new Audio("/audios/error.wav"));
     setshuffleAudio(new Audio("/audios/shuffle.wav"));
+    toggle(false);
   }, []);
   const audioPlay = async (type?: number) => {
     if (sound) {
@@ -104,19 +111,22 @@ export default function Game(props: { type: number }) {
   const [lastIndex, setLastIndex] = useState<number>(-1); //-1 means no last card
 
   useMemo(() => {
-    const rCards: GameCardProps[] = cardSet
-      .slice(0, row * column)
-      .map((card: CardProps, index) => {
-        return {
-          status: 0,
-          originId: card.id,
-          id: index,
-          content: card.content,
-        };
-      });
-    setCurCards(rCards);
-    setPlaying(false);
-  }, [column, cardSet]);
+    if (!isProcessing) {
+      const rCards: GameCardProps[] = cardSet
+        .slice(0, row * column)
+        .map((card: CardProps, index) => {
+          return {
+            status: 0,
+            originId: card.id,
+            id: index,
+            content: card.content,
+          };
+        });
+      setCurCards(rCards);
+      setLastIndex(-1);
+      setPlaying(false);
+    }
+  }, [column, cardSet, isProcessing]);
 
   const [canPlay, setCanPlay] = useState(true);
 
@@ -172,6 +182,7 @@ export default function Game(props: { type: number }) {
     });
     setPlaying(true);
     setCurCards(shuffle(rCards));
+    toggle(true);
     void audioPlay(3);
   };
 
@@ -188,7 +199,7 @@ export default function Game(props: { type: number }) {
       </div>
       {/* bottom toolbar */}
       <div className="mb-20 flex justify-center">
-        {!playing && column > 4 && (
+        {!isProcessing && column > 4 && (
           <div
             className="cube cube_minus cursor-pointer"
             onClick={() => {
@@ -199,7 +210,7 @@ export default function Game(props: { type: number }) {
             <a></a>
           </div>
         )}
-        {!playing && column < 7 && (
+        {!isProcessing && column < 7 && (
           <div
             className="cube cube_add cursor-pointer"
             onClick={() => {
@@ -210,7 +221,7 @@ export default function Game(props: { type: number }) {
             <a></a>
           </div>
         )}
-        {!playing && (
+        {!isProcessing && (
           <div className="cube cube_start cursor-pointer" onClick={go}>
             <a></a>
           </div>

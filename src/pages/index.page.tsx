@@ -8,8 +8,11 @@ import ToolBar from "./components/toolbar";
 import Menu from "./components/menu";
 import Footer from "./components/footer";
 import { useEffect, useState } from "react";
+import useToggleProcess from "~/store/useToggleProcess";
 
 const Home: NextPage = () => {
+  // game start/not
+  const [toggle] = useToggleProcess((state) => [state.toggle]);
   // sound
   const { sound } = useSound();
   const [clickAudio, setClickAudio] = useState<HTMLAudioElement | undefined>();
@@ -33,6 +36,7 @@ const Home: NextPage = () => {
   const chooseCardType = (type: number) => {
     void clickPlay();
     setType(type);
+    toggle(false);
     setIsMenuOpen(false);
   };
   return (
