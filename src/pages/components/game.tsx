@@ -150,15 +150,12 @@ export default function Game(props: { type: number }) {
 
   useMemo(() => {
     setCanPlay(false);
-    console.log("{lastIndex", lastIndex, "curIndex", curIndex, "}");
     if (lastIndex >= 0) {
       if (Math.floor(curIndex / 2) == Math.floor(lastIndex / 2)) {
-        console.log("match!");
         void audioPlay(1);
         setLastIndex(-1);
         setCanPlay(true);
       } else {
-        console.log("no match!");
         let tmpCards: GameCardProps[] = [...curCards];
         tmpCards = curCards.map((card: GameCardProps) => {
           if (card.id == curIndex || card.id == lastIndex)
@@ -173,7 +170,6 @@ export default function Game(props: { type: number }) {
         }, 500);
       }
     } else {
-      console.log("click!");
       setLastIndex(curIndex);
       setCanPlay(true);
     }
