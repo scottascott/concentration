@@ -56,6 +56,7 @@ export default function Game(props: { type: number }) {
     }
   };
   const { type } = props;
+  const [step, setStep] = useState<number>(0);
   const [animationParent] = useAutoAnimate();
   // size from 4*4=16 -> 4*7=28
   const row = 4;
@@ -125,6 +126,7 @@ export default function Game(props: { type: number }) {
       setCurCards(rCards);
       setLastIndex(-1);
       setPlaying(false);
+      setStep(0);
     }
   }, [column, cardSet, isProcessing]);
 
@@ -141,19 +143,22 @@ export default function Game(props: { type: number }) {
       setCurCards(tmpCards);
 
       setCurIndex(id);
+      setStep(step + 1);
       void audioPlay(0);
     } else void audioPlay(2);
   };
 
   useMemo(() => {
     setCanPlay(false);
-    if (lastIndex > 0) {
+    console.log("{lastIndex", lastIndex, "curIndex", curIndex, "}");
+    if (lastIndex >= 0) {
       if (Math.floor(curIndex / 2) == Math.floor(lastIndex / 2)) {
-        // console.log("match!");
+        console.log("match!");
         void audioPlay(1);
         setLastIndex(-1);
         setCanPlay(true);
       } else {
+        console.log("no match!");
         let tmpCards: GameCardProps[] = [...curCards];
         tmpCards = curCards.map((card: GameCardProps) => {
           if (card.id == curIndex || card.id == lastIndex)
@@ -168,10 +173,11 @@ export default function Game(props: { type: number }) {
         }, 500);
       }
     } else {
+      console.log("click!");
       setLastIndex(curIndex);
       setCanPlay(true);
     }
-  }, [curIndex]);
+  }, [step]);
 
   const go = () => {
     const rCards = curCards.map((card) => {
@@ -195,6 +201,9 @@ export default function Game(props: { type: number }) {
         </p>
         <p>
           Cards Total: <span className="font-bold">{column * row}</span>
+        </p>
+        <p>
+          Step Used: <span className="font-bold">{step}</span>
         </p>
       </div>
       {/* bottom toolbar */}

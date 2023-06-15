@@ -1,7 +1,7 @@
 import type CardProps from "./interface";
 
 const freshSet: CardProps[] = [
-  { id: 99, content: <span>&#127812;</span> },
+  { id: 1, content: <span>&#127812;</span> },
   { id: 2, content: <span>&#127813;</span> },
   { id: 3, content: <span>&#127814;</span> },
   { id: 4, content: <span>&#127815;</span> },

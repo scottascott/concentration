@@ -1,7 +1,7 @@
 import type CardProps from "./interface";
 
 const wildSet: CardProps[] = [
-  { id: 99, content: <span>&#128000;</span> },
+  { id: 1, content: <span>&#128000;</span> },
   { id: 2, content: <span>&#128001;</span> },
   { id: 3, content: <span>&#128002;</span> },
   { id: 4, content: <span>&#128003;</span> },

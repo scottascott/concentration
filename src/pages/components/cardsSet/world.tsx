@@ -1,7 +1,7 @@
 import type CardProps from "./interface";
 
 const worldSet: CardProps[] = [
-  { id: 99, content: <span>&#9924;</span> },
+  { id: 1, content: <span>&#9924;</span> },
   { id: 2, content: <span>&#9889;</span> },
   { id: 3, content: <span>&#10024;</span> },
   { id: 4, content: <span>&#127744;</span> },
