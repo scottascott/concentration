@@ -5,6 +5,7 @@ import deliciousSet from "./cardsSet/delicious";
 import freshSet from "./cardsSet/fresh";
 import wildSet from "./cardsSet/wild";
 import Card from "./card";
+import SuccessModal from "./successModal";
 import shuffle from "~/utils/shuffle";
 import double from "~/utils/double";
 import type CardProps from "./cardsSet/interface";
@@ -12,7 +13,7 @@ import { type GameCardProps } from "./card";
 import { useSound } from "~/context/soundContext";
 import useToggleProcess from "~/store/useToggleProcess";
 
-export default function Game(props: { type: number }) {
+export default function Game(props: { type: number; openMenu?: () => void }) {
   // game start/not
   const [isProcessing, toggle] = useToggleProcess((state) => [
     state.isProcessing,
@@ -58,7 +59,7 @@ export default function Game(props: { type: number }) {
     },
     [sound, cutAudio, pairAudio, errorAudio, shuffleAudio, clickAudio]
   );
-  const { type } = props;
+  const { type, openMenu } = props;
   const [step, setStep] = useState<number>(0);
   const [animationParent] = useAutoAnimate();
   // size from 4*4=16 -> 4*7=28
@@ -113,6 +114,7 @@ export default function Game(props: { type: number }) {
   const [curCards, setCurCards] = useState<GameCardProps[]>([]);
   const [curIndex, setCurIndex] = useState<number>(-2);
   const [lastIndex, setLastIndex] = useState<number>(-1); //-1 means no last card
+  const [hasWon, setHasWon] = useState<boolean>(false);
 
   useEffect(() => {
     if (!isProcessing) {
@@ -130,6 +132,7 @@ export default function Game(props: { type: number }) {
       setLastIndex(-1);
       setPlaying(false);
       setStep(0);
+      setHasWon(false);
     }
   }, [column, cardSet, isProcessing]);
 
@@ -162,6 +165,9 @@ export default function Game(props: { type: number }) {
         void audioPlay(1);
         setLastIndex(-1);
         setCanPlay(true);
+        if (curCards.every((card) => card.status === 1)) {
+          setHasWon(true);
+        }
       } else {
         const tmpCards: GameCardProps[] = curCards.map(
           (card: GameCardProps) => {
@@ -201,68 +207,84 @@ export default function Game(props: { type: number }) {
   };
 
   return (
-    <div className="mt-[-60px] origin-top scale-75 rounded-lg py-[20px] sm:mt-0 sm:scale-100 sm:shadow-lg">
-      {/* basic info */}
-      <div className="py-[10px] text-center">
-        <p>
-          Current Theme: <span className="font-bold">{typeString}</span>
-        </p>
-        <p>
-          Cards Total: <span className="font-bold">{column * row}</span>
-        </p>
-        <p>
-          Step Used: <span className="font-bold">{step}</span>
-        </p>
+    <>
+      <div className="mt-[-60px] origin-top scale-75 rounded-lg py-[20px] sm:mt-0 sm:scale-100 sm:shadow-lg">
+        {/* basic info */}
+        <div className="py-[10px] text-center">
+          <p>
+            Current Theme: <span className="font-bold">{typeString}</span>
+          </p>
+          <p>
+            Cards Total: <span className="font-bold">{column * row}</span>
+          </p>
+          <p>
+            Step Used: <span className="font-bold">{step}</span>
+          </p>
+        </div>
+        {/* bottom toolbar */}
+        <div className="mb-20 flex justify-center">
+          {!isProcessing && column > 4 && (
+            <div
+              className="cube cube_minus cursor-pointer"
+              onClick={() => {
+                void audioPlay();
+                setColumn(column - 1);
+              }}
+            >
+              <a></a>
+            </div>
+          )}
+          {!isProcessing && column < 7 && (
+            <div
+              className="cube cube_add cursor-pointer"
+              onClick={() => {
+                void audioPlay();
+                setColumn(column + 1);
+              }}
+            >
+              <a></a>
+            </div>
+          )}
+          {!isProcessing && (
+            <div className="cube cube_start cursor-pointer" onClick={go}>
+              <a></a>
+            </div>
+          )}
+        </div>
+        {/* cards */}
+        <div
+          className="mx-auto grid w-fit grid-cols-4 gap-8 sm:grid-flow-col sm:grid-rows-4 sm:pb-[60px] "
+          ref={animationParent}
+        >
+          {curCards.map((card: GameCardProps) => {
+            const { originId, content, status, id } = card;
+            return (
+              <Card
+                originId={originId}
+                content={content}
+                status={status}
+                id={id}
+                key={id}
+                clickCard={clickCard}
+              />
+            );
+          })}
+        </div>
       </div>
-      {/* bottom toolbar */}
-      <div className="mb-20 flex justify-center">
-        {!isProcessing && column > 4 && (
-          <div
-            className="cube cube_minus cursor-pointer"
-            onClick={() => {
-              void audioPlay();
-              setColumn(column - 1);
-            }}
-          >
-            <a></a>
-          </div>
-        )}
-        {!isProcessing && column < 7 && (
-          <div
-            className="cube cube_add cursor-pointer"
-            onClick={() => {
-              void audioPlay();
-              setColumn(column + 1);
-            }}
-          >
-            <a></a>
-          </div>
-        )}
-        {!isProcessing && (
-          <div className="cube cube_start cursor-pointer" onClick={go}>
-            <a></a>
-          </div>
-        )}
-      </div>
-      {/* cards */}
-      <div
-        className="mx-auto grid w-fit grid-cols-4 gap-8 sm:grid-flow-col sm:grid-rows-4 sm:pb-[60px] "
-        ref={animationParent}
-      >
-        {curCards.map((card: GameCardProps) => {
-          const { originId, content, status, id } = card;
-          return (
-            <Card
-              originId={originId}
-              content={content}
-              status={status}
-              id={id}
-              key={id}
-              clickCard={clickCard}
-            />
-          );
-        })}
-      </div>
-    </div>
+      {hasWon && (
+        <SuccessModal
+          steps={step}
+          onPlayAgain={() => {
+            setHasWon(false);
+            go();
+          }}
+          onChangeTheme={() => {
+            setHasWon(false);
+            void audioPlay();
+            openMenu?.();
+          }}
+        />
+      )}
+    </>
   );
 }

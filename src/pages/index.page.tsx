@@ -78,7 +78,7 @@ const Home: NextPage = () => {
               }}
             />
             {/* game */}
-            <Game type={type} />
+            <Game type={type} openMenu={() => setIsMenuOpen(true)} />
             <Footer />
           </div>
         </div>
