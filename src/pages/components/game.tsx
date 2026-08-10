@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import worldSet from "./cardsSet/world";
 import deliciousSet from "./cardsSet/delicious";
@@ -35,26 +35,29 @@ export default function Game(props: { type: number }) {
     setshuffleAudio(new Audio("/audios/shuffle.wav"));
     toggle(false);
   }, []);
-  const audioPlay = async (type?: number) => {
-    if (sound) {
-      switch (type) {
-        case 0:
-          await cutAudio?.play();
-          break;
-        case 1:
-          await pairAudio?.play();
-          break;
-        case 2:
-          await errorAudio?.play();
-          break;
-        case 3:
-          await shuffleAudio?.play();
-          break;
-        default:
-          await clickAudio?.play();
+  const audioPlay = useCallback(
+    async (type?: number) => {
+      if (sound) {
+        switch (type) {
+          case 0:
+            await cutAudio?.play();
+            break;
+          case 1:
+            await pairAudio?.play();
+            break;
+          case 2:
+            await errorAudio?.play();
+            break;
+          case 3:
+            await shuffleAudio?.play();
+            break;
+          default:
+            await clickAudio?.play();
+        }
       }
-    }
-  };
+    },
+    [sound, cutAudio, pairAudio, errorAudio, shuffleAudio, clickAudio]
+  );
   const { type } = props;
   const [step, setStep] = useState<number>(0);
   const [animationParent] = useAutoAnimate();
@@ -111,7 +114,7 @@ export default function Game(props: { type: number }) {
   const [curIndex, setCurIndex] = useState<number>(-2);
   const [lastIndex, setLastIndex] = useState<number>(-1); //-1 means no last card
 
-  useMemo(() => {
+  useEffect(() => {
     if (!isProcessing) {
       const rCards: GameCardProps[] = cardSet
         .slice(0, row * column)
@@ -132,23 +135,27 @@ export default function Game(props: { type: number }) {
 
   const [canPlay, setCanPlay] = useState(true);
 
-  const clickCard = (id: number) => {
-    if (canPlay) {
-      // set cards
-      let tmpCards: GameCardProps[] = [...curCards];
-      tmpCards = curCards.map((card: GameCardProps) => {
-        if (card.id == id) return { ...card, status: 1 };
-        else return card;
-      });
-      setCurCards(tmpCards);
+  const clickCard = useCallback(
+    (id: number) => {
+      if (canPlay) {
+        // set cards
+        const tmpCards: GameCardProps[] = curCards.map(
+          (card: GameCardProps) => {
+            if (card.id == id) return { ...card, status: 1 };
+            else return card;
+          }
+        );
+        setCurCards(tmpCards);
 
-      setCurIndex(id);
-      setStep(step + 1);
-      void audioPlay(0);
-    } else void audioPlay(2);
-  };
+        setCurIndex(id);
+        setStep(step + 1);
+        void audioPlay(0);
+      } else void audioPlay(2);
+    },
+    [canPlay, curCards, step, audioPlay]
+  );
 
-  useMemo(() => {
+  useEffect(() => {
     setCanPlay(false);
     if (lastIndex >= 0) {
       if (Math.floor(curIndex / 2) == Math.floor(lastIndex / 2)) {
@@ -156,12 +163,13 @@ export default function Game(props: { type: number }) {
         setLastIndex(-1);
         setCanPlay(true);
       } else {
-        let tmpCards: GameCardProps[] = [...curCards];
-        tmpCards = curCards.map((card: GameCardProps) => {
-          if (card.id == curIndex || card.id == lastIndex)
-            return { ...card, status: 2 };
-          else return card;
-        });
+        const tmpCards: GameCardProps[] = curCards.map(
+          (card: GameCardProps) => {
+            if (card.id == curIndex || card.id == lastIndex)
+              return { ...card, status: 2 };
+            else return card;
+          }
+        );
         void audioPlay(2);
         setTimeout(() => {
           setCurCards(tmpCards);
@@ -173,7 +181,11 @@ export default function Game(props: { type: number }) {
       setLastIndex(curIndex);
       setCanPlay(true);
     }
-  }, [step]);
+    // Intentionally keyed only on `step`: curIndex/lastIndex/curCards are read
+    // as of the render that produced this step, and this effect itself
+    // updates curCards, so including it would refire mid-flip.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, audioPlay]);
 
   const go = () => {
     const rCards = curCards.map((card) => {

@@ -1,8 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import Spline from "@splinetool/react-spline";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import { Tooltip, Tour, message } from "antd";
 import type { TourProps } from "antd";
 import { useSound } from "~/context/soundContext";
+import useIsDesktop from "~/hooks/useIsDesktop";
+
+const Spline = dynamic(() => import("@splinetool/react-spline"), {
+  ssr: false,
+});
+
 interface Props {
   openMenu: () => void;
 }
@@ -25,7 +32,9 @@ export default function ToolBar(props: Props) {
       title: "MemoriaMatch",
       description:
         "Welcome to MemoriaMatch! It is a classic card-matching game that challenges your memory and concentration skills.",
-      cover: <img alt="title.png" src="/assets/title.png" />,
+      cover: (
+        <Image alt="title.png" src="/assets/title.png" width={738} height={207} />
+      ),
       target: null,
     },
     {
@@ -68,10 +77,13 @@ export default function ToolBar(props: Props) {
   ];
 
   const { openMenu } = props;
-  return (
-    <>
-      {/* pc */}
-      <div className="hidden h-[140px] w-full origin-top justify-center pb-[20px] sm:flex sm:scale-100 sm:gap-x-20">
+  const isDesktop = useIsDesktop();
+
+  if (isDesktop === null) return <div className="h-[140px] w-full" />;
+
+  if (isDesktop)
+    return (
+      <div className="flex h-[140px] w-full origin-top justify-center gap-x-20 pb-[20px]">
         {/* tip */}
         <Tooltip title="Guide" color={"#a855f7"}>
           <div
@@ -84,12 +96,6 @@ export default function ToolBar(props: Props) {
             <Spline scene="/assets/tip.splinecode" />
           </div>
         </Tooltip>
-        {/* rank */}
-        {/* <Tooltip title="Ranking List" color={"#a855f7"}>
-        <div className="w-[120px] cursor-pointer">
-          <Spline scene="/assets/ranking.splinecode" />
-        </div>
-      </Tooltip> */}
         {/* audio */}
         <Tooltip title="Sound Effect" color={"#a855f7"}>
           <div
@@ -116,36 +122,37 @@ export default function ToolBar(props: Props) {
         </Tooltip>
         <Tour open={open} onClose={() => setOpen(false)} steps={steps} />
       </div>
-      {/* mobile */}
-      <div className="flex h-[140px] w-full origin-top scale-50 justify-center gap-x-10 pb-[20px] sm:hidden">
-        <div
-          className="w-[120px] cursor-pointer"
-          onClick={() => {
-            void clickPlay();
-            void message.info("Please try guide function in PC browser.");
-          }}
-        >
-          <Spline scene="/assets/tip.splinecode" />
-        </div>
-        <div
-          className={`w-[120px] cursor-pointer ${sound ? "" : "grayscale"}`}
-          onClick={() => {
-            void clickPlay();
-            setSound(!sound);
-          }}
-        >
-          <Spline scene="/assets/audio.splinecode" />
-        </div>
-        <div className="w-[120px] cursor-pointer" ref={ref}>
-          <Spline
-            onClick={() => {
-              void clickPlay();
-              openMenu();
-            }}
-            scene="/assets/theme.splinecode"
-          />
-        </div>
+    );
+
+  return (
+    <div className="flex h-[140px] w-full origin-top scale-50 justify-center gap-x-10 pb-[20px]">
+      <div
+        className="w-[120px] cursor-pointer"
+        onClick={() => {
+          void clickPlay();
+          void message.info("Please try guide function in PC browser.");
+        }}
+      >
+        <Spline scene="/assets/tip.splinecode" />
       </div>
-    </>
+      <div
+        className={`w-[120px] cursor-pointer ${sound ? "" : "grayscale"}`}
+        onClick={() => {
+          void clickPlay();
+          setSound(!sound);
+        }}
+      >
+        <Spline scene="/assets/audio.splinecode" />
+      </div>
+      <div className="w-[120px] cursor-pointer" ref={ref}>
+        <Spline
+          onClick={() => {
+            void clickPlay();
+            openMenu();
+          }}
+          scene="/assets/theme.splinecode"
+        />
+      </div>
+    </div>
   );
 }

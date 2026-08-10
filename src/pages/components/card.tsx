@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
-import { type ReactNode, useMemo } from "react";
+import { memo, type ReactNode, useMemo } from "react";
 import ReactCardFlip from "react-card-flip";
 export interface GameCardProps {
   status: number;
@@ -14,7 +14,7 @@ interface RectProps {
   top: number;
 }
 
-export default function Card(props: GameCardProps) {
+function Card(props: GameCardProps) {
   const { id, content, status = 0, clickCard } = props;
   // const variables
   const cardWidth = 92;
@@ -92,3 +92,5 @@ export default function Card(props: GameCardProps) {
     </ReactCardFlip>
   );
 }
+
+export default memo(Card);
